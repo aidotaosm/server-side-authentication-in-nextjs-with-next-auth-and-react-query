@@ -9,11 +9,9 @@ import Helper from "../../src/utils";
 import { QueryClient, useQueryClient } from "@tanstack/react-query";
 import { fetchSession, useSession } from "../customHooks/useReactQuerySession";
 
-let axiosInstance: AxiosInstance = axios.create({});
-interface AxiosInterceptorProps {}
-export const AxiosInterceptorComponent: FunctionComponent<
-  AxiosInterceptorProps
-> = () => {
+let axiosInstance: AxiosInstance = axios.create();
+
+export const AxiosInterceptorComponent: FunctionComponent = () => {
   const queryClient: QueryClient = useQueryClient();
 
   const { session } = useSession();
@@ -22,16 +20,15 @@ export const AxiosInterceptorComponent: FunctionComponent<
       let requestInterceptor = axiosInstance.interceptors.request.use(
         (request: AxiosRequestConfig): AxiosRequestConfig => {
           if (request.headers) {
-            let common = request.headers.common as any;
             if (session?.accessToken) {
+              let common = request.headers["common"];
               if (!common.Authorization) {
-                request.headers.Authorization =
+                request.headers["Authorization"] =
                   "Bearer " + session?.accessToken;
               } else {
-                request.headers.Authorization = common.Authorization;
+                request.headers["Authorization"] = common.Authorization;
               }
             }
-            // attach some headers here
           }
           return request;
         },
@@ -43,7 +40,6 @@ export const AxiosInterceptorComponent: FunctionComponent<
                 queryClient.setQueriesData(["session"], () => {
                   return fetchResponse;
                 });
-                //  queryClient.invalidateQueries(["session"]);
                 axiosInstance.defaults.headers.common["Authorization"] =
                   "Bearer " + fetchResponse?.accessToken;
                 return axiosInstance(error.config);

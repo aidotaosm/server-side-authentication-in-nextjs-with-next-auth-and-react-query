@@ -1,15 +1,11 @@
-// You can include shared interfaces/types in a separate file
-// and then use them in any component by importing them. For
-// example, to import the interface below do:
-//
-// import { User } from 'path/to/interfaces';
-
 import { UseQueryOptions } from "@tanstack/react-query";
 import { Session } from "next-auth";
 
 export type User = {
-  id: number;
+  id: string;
   name: string;
+  email: string;
+  password: string;
 };
 export interface TokenObject {
   id: string;

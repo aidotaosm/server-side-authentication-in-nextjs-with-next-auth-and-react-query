@@ -6,12 +6,12 @@ import axios, {
 } from "axios";
 import Helper from "../utils";
 
-export const serverSideAxiosInstance: AxiosInstance = axios.create({});
+export const serverSideAxiosInstance: AxiosInstance = axios.create();
 const attachServerSideInterceptors = (axiosInstance: AxiosInstance): void => {
   axiosInstance.interceptors.request.use(
     (request: AxiosRequestConfig): AxiosRequestConfig => {
-      if (request?.headers) {
-        // attach some static headers for each request
+      if (request.headers) {
+        // attach some static headers for each server request
       }
       return request;
     },

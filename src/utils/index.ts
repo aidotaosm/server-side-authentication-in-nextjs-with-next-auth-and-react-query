@@ -1,5 +1,3 @@
-import { NextAuthSessionModel } from "../interfaces";
-
 export default class Helper {
   static isServerSide = () => {
     return typeof window === "undefined";

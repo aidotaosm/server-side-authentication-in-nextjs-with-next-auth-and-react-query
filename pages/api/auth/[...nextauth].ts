@@ -1,7 +1,7 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import UserService from "../../../src/services/user.service";
-import { CallbacksOptions, NextAuthOptions } from "next-auth/core/types";
+import { CallbacksOptions } from "next-auth/core/types";
 import { NextApiRequest, NextApiResponse } from "next";
 import { CredentialsObject, TokenObject } from "../../../src/interfaces";
 import { Provider } from "next-auth/providers";

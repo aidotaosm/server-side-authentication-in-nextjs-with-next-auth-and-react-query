@@ -5,8 +5,4 @@ export default class NextJsService {
     const response = await serverSideAxiosInstance.get("/api/auth/session");
     return response;
   };
-  static get401 = async (): Promise<any> => {
-    const response = await serverSideAxiosInstance.get(`/api/auth/test`);
-    return response;
-  };
 }
