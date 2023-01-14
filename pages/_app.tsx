@@ -14,10 +14,9 @@ import RefreshTokenHandler from "../src/components/RefreshTokenHandler";
 interface CustomPageProps {
   dehydratedState: any;
 }
-const PMSWebApp: NextPage<AppProps<CustomPageProps>> = ({
-  Component,
-  pageProps,
-}: AppProps<CustomPageProps>) => {
+const ServerSideAuthenticationWithNextJs: NextPage<
+  AppProps<CustomPageProps>
+> = ({ Component, pageProps }: AppProps<CustomPageProps>) => {
   const [queryClient] = useState(new QueryClient());
   return (
     <Fragment>
@@ -47,4 +46,4 @@ const PMSWebApp: NextPage<AppProps<CustomPageProps>> = ({
   );
 };
 
-export default PMSWebApp;
+export default ServerSideAuthenticationWithNextJs;
