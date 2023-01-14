@@ -47,12 +47,12 @@ const callbacks: Partial<CallbacksOptions> = {
   jwt: async ({ token, user }: any) => {
     if (user) {
       // This will only be executed at login. Each next invocation will skip this part.
-      token.accessToken = user.token;
-      token.accessTokenExpiry = user.tokenExpiryTime;
+      token.accessToken = user.accessToken;
+      token.accessTokenExpiry = user.accessTokenExpiry;
       token.refreshToken = user.refreshToken;
     }
 
-    // If accessTokenExpiry is 1 hour, we have to refresh token before 1 hours pass. (thus 30 seconds before 1 hour passes)
+    // If accessTokenExpiry is 1 minute, we have to refresh token before 1 minute passes. (thus 30 seconds before 1 minute passes)
     const shouldRefreshTime = Math.round(
       new Date(token.accessTokenExpiry).getTime() - 30 * 1000 - Date.now()
     );

@@ -2,7 +2,13 @@ import axiosInstanceFromComponent from "../components/AxiosInterceptorComponent"
 import { USERSERVICE_API_URL } from "../constants";
 import Helper from "../utils";
 import { serverSideAxiosInstance } from "../axios/serverSideAxiosClientWithInterceptor";
-import { CredentialsObject, TokenObject } from "../interfaces";
+import {
+  CredentialsObject,
+  NextAuthSessionModel,
+  TokenObject,
+  User,
+} from "../interfaces";
+import { getHeaderWithToken } from "../helpers";
 
 let axiosInstance = serverSideAxiosInstance;
 if (!Helper.isServerSide()) {
@@ -26,9 +32,16 @@ export default class UserService {
     const response = await axiosInstance.post(
       `${USERSERVICE_API_URL}/refresh-token`,
       {
-        token: tokenObject.accessToken,
+        accessToken: tokenObject.accessToken,
         refreshToken: tokenObject.refreshToken,
       }
+    );
+    return response.data;
+  };
+  static getUsers = async (session?: NextAuthSessionModel): Promise<User[]> => {
+    const response = await axiosInstance.get(
+      `${USERSERVICE_API_URL}/users`,
+      getHeaderWithToken(session)
     );
     return response.data;
   };

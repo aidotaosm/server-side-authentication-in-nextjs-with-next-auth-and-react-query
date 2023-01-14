@@ -10,11 +10,9 @@ const RefreshTokenHandler: FunctionComponent<RefreshTokenHandlerProps> = () => {
   const [interval, setInterval] = useAtom(intervalAtom);
   useEffect(() => {
     if (!!session) {
-      // Here we set interval of 5 minutes before token expiry date.
+      // Here we set interval of 15 seconds before token expiry date.
       const timeRemaining = Math.round(
-        new Date(session.accessTokenExpiry).getTime() -
-          5 * 60 * 1000 -
-          Date.now()
+        new Date(session.accessTokenExpiry).getTime() - 15 * 1000 - Date.now()
       );
       setInterval(timeRemaining > 0 ? timeRemaining : 0); // time should be greater than 0
       if (interval != timeRemaining && !session.error) {
