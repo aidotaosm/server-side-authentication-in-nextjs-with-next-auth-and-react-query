@@ -13,20 +13,30 @@ import { options } from "../api/auth/[...nextauth]";
 import { dehydrate, useQuery } from "@tanstack/react-query";
 import { getReactQueryClientSSRSession } from "../../src/helpers/SsrRTKQueryPrefetchSession";
 import UserService from "../../src/services/user.service";
+import { useSession } from "../../src/customHooks/useReactQuerySession";
+import { Fragment } from "react";
 
 const UsersPageWithSSR = () => {
-  const { data: userList, isLoading: userListIsLoading } = useQuery<User[]>(
+  const authObject = useSession();
+  console.log(authObject);
+  const { data: userList = [], isLoading: userListIsLoading } = useQuery<
+    User[]
+  >(
     ["user-list"],
     () => {
       return UserService.getUsers().then((x) => {
         return x;
       });
     },
-    { enabled: true, refetchOnWindowFocus: false, retry: false }
+    {
+      enabled: authObject.isAuthenticated,
+      refetchOnWindowFocus: false,
+      retry: false,
+    }
   );
 
   return (
-    <Layout title="Users List | Next.js + TypeScript Example">
+    <Fragment>
       <h1>Users List</h1>
       <p>
         Example fetching data from inside <code>getServerSideProps()</code>.
@@ -36,7 +46,7 @@ const UsersPageWithSSR = () => {
       <p>
         <Link href="/">Go home</Link>
       </p>
-    </Layout>
+    </Fragment>
   );
 };
 export async function getServerSideProps(context: GetServerSidePropsContext) {

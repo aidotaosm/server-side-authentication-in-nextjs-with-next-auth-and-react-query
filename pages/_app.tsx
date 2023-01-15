@@ -9,7 +9,9 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { Fragment, useState } from "react";
 import { AxiosInterceptorComponent } from "../src/components/AxiosInterceptorComponent";
+import Layout from "../src/components/Layout";
 import RefreshTokenHandler from "../src/components/RefreshTokenHandler";
+import "../src/css/styles.css";
 
 interface CustomPageProps {
   dehydratedState: any;
@@ -29,13 +31,17 @@ const ServerSideAuthenticationWithNextJs: NextPage<
           content="Server Side Authentication Flow with NextJs 13.1.2 and React-Query."
           key="description"
         />
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <Fragment>
             <Fragment>
               <AxiosInterceptorComponent />
-              <Component {...pageProps} />
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
               <RefreshTokenHandler />
             </Fragment>
             {/* <ReactQueryDevtools initialIsOpen={false} /> */}
